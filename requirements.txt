@@ -1,0 +1,4 @@
+flask
+sqlalchemy
+docker
+psycopg2
