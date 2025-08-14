@@ -1,4 +1,6 @@
-flask
-sqlalchemy
-docker
-psycopg2
+Flask>=2.3
+SQLAlchemy>=2.0
+psycopg2-binary>=2.9
+alembic>=1.13
+python-dotenv>=1.0
+docker>=6.1

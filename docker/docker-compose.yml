@@ -1,0 +1,16 @@
+version: "3.9"
+services:
+  db:
+    image: postgres:15
+    container_name: adaptivejudge_db
+    environment:
+      POSTGRES_USER: judge
+      POSTGRES_PASSWORD: judgepwd
+      POSTGRES_DB: adaptive_judge
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    restart: unless-stopped
+volumes:
+  pgdata:
