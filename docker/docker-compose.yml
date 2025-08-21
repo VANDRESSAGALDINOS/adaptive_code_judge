@@ -1,16 +1,11 @@
-version: "3.9"
 services:
-  db:
-    image: postgres:15
-    container_name: adaptivejudge_db
+  api:
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile.api
+    container_name: acj_api
     environment:
-      POSTGRES_USER: judge
-      POSTGRES_PASSWORD: judgepwd
-      POSTGRES_DB: adaptive_judge
+      - FLASK_ENV=development
     ports:
-      - "5432:5432"
-    volumes:
-      - pgdata:/var/lib/postgresql/data
+      - "8000:8000"
     restart: unless-stopped
-volumes:
-  pgdata:
