@@ -1,11 +1,29 @@
 services:
-  api:
-    build:
-      context: ..
-      dockerfile: docker/Dockerfile.api
-    container_name: acj_api
+  db:
+    image: postgres:16
+    container_name: acj_db
     environment:
-      - FLASK_ENV=development
+      POSTGRES_DB: acj
+      POSTGRES_USER: acj
+      POSTGRES_PASSWORD: acj
     ports:
-      - "8000:8000"
-    restart: unless-stopped
+      - "5432:5432"
+    volumes:
+      - acj_pg:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL","pg_isready -U acj -d acj"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+
+  api:
+    # (igual antes) + depende do db e DATABASE_URL
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      - DATABASE_URL=postgresql+psycopg2://acj:acj@db:5432/acj
+      - FLASK_ENV=development
+
+volumes:
+  acj_pg:
